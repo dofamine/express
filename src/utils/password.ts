@@ -11,7 +11,7 @@ const SALT_LENGTH = 16;
 const KEY_LENGTH = 32;
 const MAX_PASSWORD_BYTES = 1024;
 
-function assertValidPassword(password) {
+function assertValidPassword(password: string): void {
   if (typeof password !== 'string') {
     throw new TypeError('Password must be a string');
   }
@@ -21,8 +21,8 @@ function assertValidPassword(password) {
   }
 }
 
-function decodeBase64Url(value, expectedLength) {
-  if (typeof value !== 'string' || !/^[A-Za-z0-9_-]+$/.test(value)) {
+function decodeBase64Url(value: string, expectedLength: number): Buffer | null {
+  if (!/^[A-Za-z0-9_-]+$/.test(value)) {
     return null;
   }
 
@@ -30,7 +30,7 @@ function decodeBase64Url(value, expectedLength) {
   return decoded.length === expectedLength ? decoded : null;
 }
 
-export async function hashPassword(password) {
+export async function hashPassword(password: string): Promise<string> {
   assertValidPassword(password);
 
   const salt = crypto.randomBytes(SALT_LENGTH);
@@ -45,7 +45,10 @@ export async function hashPassword(password) {
   ].join('$');
 }
 
-export async function verifyPassword(password, storedHash) {
+export async function verifyPassword(
+  password: string,
+  storedHash: unknown,
+): Promise<boolean> {
   try {
     assertValidPassword(password);
 
@@ -64,7 +67,9 @@ export async function verifyPassword(password, storedHash) {
     if (
       algorithm !== ALGORITHM ||
       version !== VERSION ||
-      iterations !== ITERATIONS
+      iterations !== ITERATIONS ||
+      encodedSalt === undefined ||
+      encodedHash === undefined
     ) {
       return false;
     }

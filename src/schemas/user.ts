@@ -1,3 +1,5 @@
+import type { Schema } from 'express-validator';
+
 export const userSchema = {
   name: {
     isLength: {
@@ -12,7 +14,7 @@ export const userSchema = {
     },
     isString: {
       errorMessage: 'Username must be a string',
-    }
+    },
   },
   password: {
     isLength: {
@@ -26,4 +28,4 @@ export const userSchema = {
       errorMessage: 'Password is required',
     },
   },
-}
+} satisfies Schema;
