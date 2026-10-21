@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create User</title>
+</head>
+<body>
+<form action="/api/users/new" method="post">
+  <label>
+    Username:
+    <input type="text" name="name" required pattern="^[a-zA-Z0-9]+$"/>
+  </label>
+  <input type="submit" value="Create User">
+</form>
+</body>
+</html>
